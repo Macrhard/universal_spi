@@ -25,15 +25,15 @@ always @(current_state) begin
             r_next_state = S2;
         end
         S2:begin
-            r_clk_5_tmp = 0;
+            r_clk_5_tmp = 1;
             r_next_state = S3;
         end
         S3:begin
-            r_clk_5_tmp = 0;
+            r_clk_5_tmp = 1;
             r_next_state = S4;
         end
         S4:begin
-            r_clk_5_tmp = 0;
+            r_clk_5_tmp = 1;
             r_next_state = S0
         end
         default:begin
