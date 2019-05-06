@@ -31,7 +31,7 @@ assign w_cnt1_one = (r_cnt1 == {{`SPI_DIVIDER_LEN-1{1'b0}},1'b0});
 assign w_cnt2_one = (r_cnt2 == {{`SPI_DIVIDER_LEN-1{1'b0}},1'b1});
 
 assign w_clk0 = ~i_clk;
-assign w_clk_out = i_divider[0] ? (r_clk1 | r_clk3) : (r_clk1 | r_clk2);
+assign w_clk_out = i_divider[0] ? (r_clk1 | r_clk3) : (r_clk1 | !r_clk2);
 
 //clk1 主线
 always @(posedge i_clk or negedge i_rst_n) begin
@@ -76,9 +76,9 @@ always @(posedge i_clk or negedge i_rst_n) begin
             end
             else if(r_cnt2 == {`SPI_DIVIDER_LEN{1'b0}}) begin   //如果r_cnt2累加到 0，r_clk2翻转一次
                 r_cnt2 <= #Tp r_cnt2 + {{`SPI_DIVIDER_LEN-1{1'b0}},1'b1};
-                r_clk2 <= #Tp (i_enable && (!i_last_clk || w_clk_out)) ? ~r_clk2 : r_clk2;
+                r_clk2 <= #Tp (i_enable && (!i_last_clk || w_clk_out)) ? ~r_clk2 : r_clk2; //(i_enable && (!i_last_clk || w_clk_out))
             end
-            else if(r_cnt2 == (i_divider/2+1)) begin //如果r_cnt2累加到 divider/2+1，r_clk2翻转一次
+            else if(r_cnt2 == ((i_divider/2)+1)) begin //如果r_cnt2累加到 divider/2+1，r_clk2翻转一次
                 r_cnt2 <= #Tp r_cnt2 + {{`SPI_DIVIDER_LEN-1{1'b0}},1'b1};
                 r_clk2 <= #Tp (i_enable && (!i_last_clk || w_clk_out)) ? ~r_clk2 : r_clk2;
             end

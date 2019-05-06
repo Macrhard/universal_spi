@@ -1,0 +1,2 @@
+clk_gen_top_tb.v
+../code/spi_clk_gen.v
