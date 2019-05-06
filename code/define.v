@@ -1,20 +1,20 @@
 //设置时钟分频数
-`define SPI_DIVIDER_LEN_8
+`define SPI_DIVIDER_LEN_8 
 //`define SPI_DIVIDER_LEN_16
 //`define SPI_DIVIDER_LEN_24
 //`define SPI_DIVIDER_LEN_32
 
 `ifdef SPI_DIVIDER_LEN_8
-    `define SPI_DIVIDER_LEN_8    8
+    `define SPI_DIVIDER_LEN      8
 `endif
-`ifdef SPI_DIVIDER_LEN_8
-    `define SPI_DIVIDER_LEN_16   16
+`ifdef SPI_DIVIDER_LEN_16
+    `define SPI_DIVIDER_LEN      16
 `endif
-`ifdef SPI_DIVIDER_LEN_8
-    `define SPI_DIVIDER_LEN_24   24
+`ifdef SPI_DIVIDER_LEN_24
+    `define SPI_DIVIDER_LEN      24
 `endif
-`ifdef SPI_DIVIDER_LEN_8
-    `define SPI_DIVIDER_LEN_32   32
+`ifdef SPI_DIVIDER_LEN_32
+    `define SPI_DIVIDER_LEN      32
 `endif
 
 ///////////////////////////////////////////
@@ -27,23 +27,27 @@
 //`define SPI_MAX_CHAR_8
 
 `ifdef SPI_MAX_CHAR_128
-    `define SPI_MAX_CHAR_128     128
+    `define SPI_MAX_CHAR         128
     `define SPI_CHAR_LEN_BITS    7
 `endif
-`ifdef SPI_MAX_CHAR_128
-    `define SPI_MAX_CHAR_64      64
+`ifdef SPI_MAX_CHAR_64
+    `define SPI_MAX_CHAR         64
     `define SPI_CHAR_LEN_BITS    6
 `endif
-`ifdef SPI_MAX_CHAR_128
-    `define SPI_MAX_CHAR_32      32
+`ifdef SPI_MAX_CHAR_32
+    `define SPI_MAX_CHAR         32
     `define SPI_CHAR_LEN_BITS    5
 `endif
-`ifdef SPI_MAX_CHAR_128
-    `define SPI_MAX_CHAR_16      16
+`ifdef SPI_MAX_CHAR_24
+    `define SPI_MAX_CHAR         24
+    `define SPI_CHAR_LEN_BITS    5
+`endif
+`ifdef SPI_MAX_CHAR_16
+    `define SPI_MAX_CHAR         16
     `define SPI_CHAR_LEN_BITS    4
 `endif
-`ifdef SPI_MAX_CHAR_128
-    `define SPI_MAX_CHAR_8       8
+`ifdef SPI_MAX_CHAR_8
+    `define SPI_MAX_CHAR         8
     `define SPI_CHAR_LEN_BITS    3
 `endif
 
@@ -56,16 +60,16 @@
 //`define SPI_SS_NUM_32
 
 `ifdef SPI_SS_NUM_8
-    `define SPI_SS_NUM_8         8
+    `define SPI_SS_NUM           8
 `endif
 `ifdef SPI_SS_NUM_16
-    `define SPI_SS_NUM_16        16
+    `define SPI_SS_NUM           16
 `endif
 `ifdef SPI_SS_NUM_24
-    `define SPI_SS_NUM_24        24
+    `define SPI_SS_NUM           24
 `endif
 `ifdef SPI_SS_NUM_32
-    `define SPI_SS_NUM_32        32
+    `define SPI_SS_NUM           32
 `endif
 
 ////////////////////////////////////////////
