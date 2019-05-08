@@ -28,14 +28,25 @@ initial begin
                 i_enable = 1'b1;
                 i_last_clk = 1'b0;
                 i_divider = 8'd2;
+                i_tx_start = 1'b1;
     #10         i_rst_n = 1'b0;
     #50         i_rst_n = 1'b1;
-                i_tx_start = 1'b1;
     #300        i_divider = 8'd12;
     #300        i_divider = 8'd3;
-    #300        i_divider = 8'd4;
-    #300        i_divider = 8'd5;
     #300        i_divider = 8'd6;
+    #300        i_divider = 8'd5;
+    #300        i_divider = 8'd4;
+    #300        i_divider = 8'd7;
+                i_enable = 1'b1;
+    #50         i_enable = 1'b1;
+    #300        i_divider = 8'd6;
+    #300        i_divider = 8'd10;
+    #300        i_divider = 8'd2;
+    #300        i_divider = 8'd4;
+    #300        i_last_clk = 1'b1;
+    #300        i_divider = 8'd6;
+                i_last_clk = 1'b0;
+    #300        i_divider = 8'd2;
 end
 
 always #1 i_clk = ~i_clk;

@@ -2,4 +2,5 @@ sim/work
 sim/work
 sim/transcript
 sim/vsim.wlf
-sim/wlftyrktjn
+sim/wlft*
+sim/wave.do

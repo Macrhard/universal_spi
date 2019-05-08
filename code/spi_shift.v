@@ -1,3 +1,4 @@
+`include "define.v"
 module spi_shift(
     input       i_clk,
     input       i_rst_n,
@@ -13,12 +14,12 @@ module spi_shift(
     input [31:0] i_parallel_in,
     input       i_serial_in,
     input       i_serial_clk,
-    output      o_tip,
+    output      o_tip,          //传输进行信号，连接到spi_clk_gen中i_enable
     output      o_last,
     output [`SPI_CHAR_LEN_BITS-1:0] o_parallel_out,
     output      o_serial_out
 );
-
+parameter Tp = 1; 
 reg r_serial_out;
 reg r_tip;
 reg [`SPI_CHAR_LEN_BITS] r_cnt;
@@ -39,9 +40,9 @@ always @(posedge i_clk or negedge i_rst_n) begin
         r_cnt <= #Tp {`SPI_CHAR_LEN_BITS + 1{1'b0}};
     else begin
         if(r_tip)
-            r_cnt <= #Tp i_pos_edge ? (r_cnt - {{`SPI_CHAR_LEN_BITS + 1{1'b0}},1'b1}) : r_cnt;
+            r_cnt <= #Tp i_pos_edge ? (r_cnt - {{`SPI_CHAR_LEN_BITS{1'b0}},1'b1}) : r_cnt; //传输进行时，在sclk的上升沿减1，否则保持
         else  
-            r_cnt <= #Tp !(|i_len) ? {1'b1,{`SPI_CHAR_LEN_BITS{1'b0}} : {1'b0,i_len};
+            r_cnt <= #Tp !(|i_len) ? {1'b1,{`SPI_CHAR_LEN_BITS{1'b0}}} : {1'b0,i_len}; //未传输时，载入len，当len全为0即最大传输128bit，赋cnt=8'h80;否则cnt =len
     end
 end
 
@@ -54,6 +55,7 @@ always @(posedge i_clk or negedge i_rst_n) begin
         r_tip <= #Tp 1'b0;
 end
 
+//串行数据输出部分
 always @(posedge i_clk or negedge i_rst_n) begin
     if(!i_rst_n)
         r_serial_out <= #Tp 1'b0;
@@ -61,12 +63,13 @@ always @(posedge i_clk or negedge i_rst_n) begin
         o_serial_out <= #Tp(w_tx_clk_en || !r_tip) ? r_data[w_tx_bit_pos[`SPI_CHAR_LEN_BITS-1:0]] : r_serial_out;
 end
 
+//并行数据输入
 always @(posedge i_clk or negedge i_rst_n) begin
     if(!i_rst_n)
         r_data <= #Tp {`SPI_MAX_CHAR{1'b0}};
 `ifdef SPI_MAX_CHAR_128
-    else if(i_latch[0] && !r_tip) begin
-        if(i_byte_sel[3])
+    else if(i_latch[0] && !r_tip) begin  //锁存使能，并行输入开始，每次并行传输32bit
+        if(i_byte_sel[3])       //shift位选择信号，每次并行传输8bit
             r_data <= #Tp i_parallel_in[31:24];
         if(i_byte_sel[2])
             r_data <= #Tp i_parallel_in[23:16];
@@ -93,7 +96,7 @@ always @(posedge i_clk or negedge i_rst_n) begin
 end
 `endif
 `endif
-    else
+    else //否则在不进行并行输入时，串行输入或者保持数据
         r_data[w_rx_bit_pos[`SPI_CHAR_LEN_BITS-1:0]] <= #Tp w_rx_clk_en ? i_serial_in : r_data[w_rx_bit_pos[`SPI_CHAR_LEN_BITS-1:0]];
 end
 endmodule // spi_shift

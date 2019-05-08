@@ -23,8 +23,8 @@
 //`define SPI_MAX_CHAR_64
 //`define SPI_MAX_CHAR_32
 //`define SPI_MAX_CHAR_24
-`define SPI_MAX_CHAR_16
-//`define SPI_MAX_CHAR_8
+//`define SPI_MAX_CHAR_16
+`define SPI_MAX_CHAR_8
 
 `ifdef SPI_MAX_CHAR_128
     `define SPI_MAX_CHAR         128
